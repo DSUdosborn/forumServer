@@ -1,1 +1,32 @@
 
+#app {
+	text-align: center;
+}
+
+h1,h2{
+	font-family: Roboto, sans-serif;
+}
+
+h1{
+	background-color: #000000;
+  font-weight: 700;
+	margin: 0, auto ;
+  color: white;
+}
+
+h2{
+  font-weight: 400;
+  margin-bottom:0;
+}
+
+button{
+	font-family: Roboto;
+  font-weight: 300;
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
