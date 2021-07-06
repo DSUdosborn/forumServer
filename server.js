@@ -108,3 +108,8 @@ server.post("/thread",req, res) => {
 });
 
 // DELETE /post/:thread_id/:post_id
+server.delete("/thread/:id",req, res) => {
+  res.setHeader("application/json");
+  console.log("deleting post from  thread with id " $(req.params.id));
+  res.json([]);
+});
