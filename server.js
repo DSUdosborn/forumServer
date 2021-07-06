@@ -82,14 +82,14 @@ server.get("/thread",(req, res) => {
 // GET /thread/:id
 server.get("/thread/:id",(req, res) => {
   res.setHeader("application/json");
-  console.log("Getting thread with id " $(req.params.id));
+  console.log(`Getting thread with id  $(req.params.id)`);
   res.json([]);
 });
 
 // POST /thread
 server.post("/thread",(req, res) => {
   res.setHeader("application/json");
-  console.log("Deleting thread with id " $(req.params.id));
+  console.log(`Deleting thread with id  $(req.params.id)`);
   res.json([]);
 });
 
@@ -110,6 +110,6 @@ server.post("/thread",(req, res) => {
 // DELETE /post/:thread_id/:post_id
 server.delete("/thread/:id",(req, res) => {
   res.setHeader("application/json");
-  console.log("deleting post from  thread with id " $(req.params.id));
+  console.log(`deleting post from  thread with id  $(req.params.id)`);
   res.json([]);
 });
