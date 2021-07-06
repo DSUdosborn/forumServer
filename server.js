@@ -21,7 +21,7 @@ server.use(express.static("static"));
 server.use(express.json({}));
 
 // this is where we will do our own middleware
-server.use(demoLogger);
+
 
 const getActualRequestDurationInMilliseconds = (start) => {
   const NS_PER_SEC = 1e9; //  convert to nanoseconds
@@ -59,6 +59,8 @@ let demoLogger = (req, res, next) => {
   });
   next();
 };
+
+server.use(demoLogger);
 
 module.exports = server;
 
