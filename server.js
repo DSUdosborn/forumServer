@@ -21,34 +21,7 @@ server.use(express.static("static"));
 server.use(express.json({}));
 
 // this is where we will do our own middleware
-server.use((req, res, next) => {
-
-  let current_datetime = new Date();
-  let formatted_date =
-    current_datetime.getFullYear() +
-    "-" +
-    (current_datetime.getMonth() + 1) +
-    "-" +
-    current_datetime.getDate() +
-    " " +
-    current_datetime.getHours() +
-    ":" +
-    current_datetime.getMinutes() +
-    ":" +
-    current_datetime.getSeconds();
-
-  console.log(
-    "Time: ",
-    formatted_date,
-    " - Method: ",
-    req.method,
-    " - Path: ",
-    req.originalUrl,
-    " - Body: ",
-    req.body
-  );
-  next();
-});
+server.use(demoLogger);
 
 const getActualRequestDurationInMilliseconds = (start) => {
   const NS_PER_SEC = 1e9; //  convert to nanoseconds
