@@ -172,7 +172,6 @@ server.delete("/thread/:id",(req, res) => {
         })
       }
       res.status(200).json(thread);
-    }
   });
 });
 
