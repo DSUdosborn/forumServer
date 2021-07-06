@@ -31,7 +31,7 @@ var app= new Vue({
         new_post_author:"",
         new_post_body:"",
 
-        server_url:"http://forum2021.codeschool.cloud",
+        server_url:"localhost:8080",
 
         threads:[]
     },
