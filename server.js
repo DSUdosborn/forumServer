@@ -166,11 +166,11 @@ server.delete("/thread/:id",(req, res) => {
         message: "Could not process thread request"
       });
       return;
-    } else if (thread === null) {
-      res.status(404).json({
-        message: "Could not find thread"
-      })
-    }
+      } else if (thread === null) {
+        res.status(404).json({
+          message: "Could not find thread"
+        })
+      }
       res.status(200).json(thread);
     }
   });
