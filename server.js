@@ -156,9 +156,27 @@ server.post("/thread", (req, res) => {
 
 // DELETE /thread/:id
 server.delete("/thread/:id",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log(`Getting thread with id  $(req.params.id)`);
-  res.json([]);
+  res.setHeader("Content-Type", "application/json");
+  console.log(`deleting thread with id: ${req.params.id}`);
+
+  Thread.findByIdAndDelete(req.params.id, function (err, link) {
+    if (err) {
+      console.log(`unable to delete thread`);
+      res.status(500).json({
+        message: "unable to delete thread",
+        error: err,
+      });
+      return;
+    } else if (thread === null) {
+      console.log(`unable to delete thread with id ${req.params.id}`);
+      res.status(404).json({
+        message: `thread with id ${req.params.id} not found`,
+        error: err,
+      });
+    } else {
+      res.status(200).json(thread);
+    }
+  });
 });
 
 // POST /post
