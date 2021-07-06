@@ -177,11 +177,40 @@ server.delete("/thread/:id",(req, res) => {
 
 
 // POST /post
-server.post("/post",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log("Posting new thread");
+server.post("/post", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log(`creating post with body`, req.body);
 
-  res.json([]);
+  let newPost = {
+    author: req.body.author || "",
+    body: req.body.body || "",
+    thread_id: req.body.thread_id || "",
+  };
+
+  Thread.findByIdAndUpdate(
+    req.body.thread_id,
+    {
+      $push: { posts: newPost },
+    },
+    {
+      new: true,
+    },
+    (err, thread) => {
+      if (err != null) {
+        res.status(500).json({
+          error: err,
+          message: "could not add post",
+        });
+      } else if (thread === null) {
+        res.status(400).json({
+          error: err,
+          message: "could not find thread",
+        });
+        return;
+      }
+      res.status(200).json(thread.posts[thread.posts.length - 1]);
+    }
+  );
 });
 
 // DELETE /post/:thread_id/:post_id
