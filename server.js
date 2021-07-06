@@ -159,7 +159,7 @@ server.delete("/thread/:id",(req, res) => {
   res.setHeader("Content-Type", "application/json");
   console.log(`deleting thread with id: ${req.params.id}`);
 
-  Thread.findByIdAndDelete(req.params.id, function (err, link) {
+  Thread.findByIdAndDelete(req.params.id, function (err, thread) {
     if (err != null) {
       res.status(500).json({
         error: err,
