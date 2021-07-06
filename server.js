@@ -101,7 +101,7 @@ server.delete("/thread/:id",(req, res) => {
 });
 
 // POST /post
-server.post("/thread",(req, res) => {
+server.post("/post",(req, res) => {
   res.setHeader("Content-Type","application/json");
   console.log("Posting new thread");
   res.json([]);
