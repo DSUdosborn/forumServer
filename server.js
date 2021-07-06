@@ -73,42 +73,42 @@ let demoLogger = (req, res, next) => {
 module.exports = server;
 
 // GET /thread
-server.get("/thread",req, res) => {
+server.get("/thread",(req, res) => {
   res.setHeader("application/json");
   console.log("Getting all threads");
   res.json([]);
 });
 
 // GET /thread/:id
-server.get("/thread/:id",req, res) => {
+server.get("/thread/:id",(req, res) => {
   res.setHeader("application/json");
   console.log("Getting thread with id " $(req.params.id));
   res.json([]);
 });
 
 // POST /thread
-server.post("/thread",req, res) => {
+server.post("/thread",(req, res) => {
   res.setHeader("application/json");
   console.log("Deleting thread with id " $(req.params.id));
   res.json([]);
 });
 
 // DELETE /thread/:id
-server.delete("/thread/:id",req, res) => {
+server.delete("/thread/:id",(req, res) => {
   res.setHeader("application/json");
   console.log("Getting thread with id " $(req.params.id));
   res.json([]);
 });
 
 // POST /post
-server.post("/thread",req, res) => {
+server.post("/thread",(req, res) => {
   res.setHeader("application/json");
   console.log("Posting new thread");
   res.json([]);
 });
 
 // DELETE /post/:thread_id/:post_id
-server.delete("/thread/:id",req, res) => {
+server.delete("/thread/:id",(req, res) => {
   res.setHeader("application/json");
   console.log("deleting post from  thread with id " $(req.params.id));
   res.json([]);
