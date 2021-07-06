@@ -10,6 +10,8 @@ const cors = require("cors");
 // instantiate your server/server
 const server = express();
 
+const {Thread} = require("./model");
+
 server.use(cors());
 
 server.use(express.static("static"));
