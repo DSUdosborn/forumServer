@@ -89,18 +89,42 @@ let demoLogger = (req, res, next) => {
 
 module.exports = server;
 
-// GET /thread
-server.get("/thread",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log("Getting all threads");
-  res.json([]);
+server.get("/thread", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log("getting all threads");
+  Thread.find({}, (err, threads) => {
+    // check if error is null
+    if (err != null) {
+      res.status(500).json({
+        error: err,
+        message: "could not list threads",
+      });
+      return;
+    }
+    // success
+    res.status(200).json(threads);
+  });
 });
 
 // GET /thread/:id
-server.get("/thread/:id",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log(`Getting thread with id  $(req.params.id)`);
-  res.json([]);
+// GET /thread/:id
+server.get("/thread/:id", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log(`getting thread with id ${req.params.id}`);
+  Thread.findById(req.params.id, (err, thread) => {
+    if (err != null) {
+      res.status(500).json({
+        error: err,
+        message: "Could not process thread request"
+      });
+      return;
+    } else if (thread === null) {
+      res.status(404).json({
+        message: "Could not find thread"
+      })
+    }
+    res.status(200).json(thread)
+  });
 });
 
 // POST /thread
@@ -121,6 +145,7 @@ server.delete("/thread/:id",(req, res) => {
 server.post("/post",(req, res) => {
   res.setHeader("Content-Type","application/json");
   console.log("Posting new thread");
+
   res.json([]);
 });
 
