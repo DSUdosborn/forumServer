@@ -96,7 +96,7 @@ server.post("/thread",(req, res) => {
 // DELETE /thread/:id
 server.delete("/thread/:id",(req, res) => {
   res.setHeader("application/json");
-  console.log("Getting thread with id  $(req.params.id)");
+  console.log(`Getting thread with id  $(req.params.id)`);
   res.json([]);
 });
 
