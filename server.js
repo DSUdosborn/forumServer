@@ -7,19 +7,19 @@ const Link  = require("./model");
 // local file storage
 const fs = require('fs');
 const cors = require("cors");
-// instantiate your app/server
-const app = express();
+// instantiate your server/server
+const server = express();
 
-app.use(cors());
+server.use(cors());
 
-app.use(express.static("static"));
+server.use(express.static("static"));
 
-// tell our app to use json (this is an example of a middleware but this one
+// tell our server to use json (this is an example of a middleware but this one
 // is implemented for us)
-app.use(express.json({}));
+server.use(express.json({}));
 
 // this is where we will do our own middleware
-app.use((req, res, next) => {
+server.use((req, res, next) => {
   console.log(
     "Time: ",
     Date.now(),
@@ -35,4 +35,4 @@ app.use((req, res, next) => {
 
 
 
-module.exports = app;
+module.exports = server;
