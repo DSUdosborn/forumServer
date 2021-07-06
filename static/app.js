@@ -1,12 +1,10 @@
-var app= new Vue({
-    el:"#app",
+var app = new Vue ( {
+    el: "#app",
+    vuetify: new Vuetify(),
     data:{
-        page:"forum",
-        threads_empty:"There are no threads for this category",
-        posts_empty:"There are no posts for this thread",
-        //for filtering
+        page:"blog",
+        drawer:false,
         selected_category:"all",
-
         categories:[
             "all",
             "clothing",
@@ -16,152 +14,121 @@ var app= new Vue({
             "coins",
             "keychains",
             "comic books",
-            "misc."
-
+            "misc.",
         ],
-        index:0,
+        threads:[],
+
         postings:[],
+
         //for a new thread
         new_name:"",
         new_author:"",
         new_description:"",
         new_category:"all",
 
-        //for a new post
-        new_post_author:"",
+        //for a new post on a thread
         new_post_body:"",
+        new_post_author:"",
 
-        server_url:"http://localhost:8080",
-
-        threads:[]
+        server_url:"http://forum2021.codeschool.cloud"
     },
-
     created:function(){
         this.getThreads();
     },
-
     methods:{
+        getThreads:function(){
+            fetch(this.server_url+"/thread").then(function(res){
+                res.json().then(function(data){
+                    app.threads= data;
+                })
+            });
+        },
 
-      getThreads:function(){
-          fetch(this.server_url+"/thread").then(function(response){
-              response.json().then(function(data){
-                  app.threads=data;
-//                  console.log(data)
-              })
-          })
+        createThread:function(){
+            var new_thread={
+                name:this.new_name,
+                author:this.new_author,
+                description:this.new_description,
+                category:this.new_category,
+            };
+            fetch(this.server_url+"/thread",{
+                method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+                },
+                body:JSON.stringify(new_thread)
+            }).then(function() {
+                app.getThreads();
+                app.new_name="";
+                app.new_author="";
+                app.category="all";
+                app.new_description="";
+                app.page="blog";
 
-      },
-
-      createThread: function(){
-          // var for a new thread
-          var new_thread={
-              name: this.new_name,
-              author:this.new_author,
-              description:this.new_description,
-              category:this.new_category,
-          };
-          //push the new thread to threads list
-          fetch(this.server_url+"/thread",{
-              method:"POST",
-              headers:{
-                  "Content-Type":"application/json"
-              },
-              body:JSON.stringify(new_thread)
-          }).then(function(){
-              //clear the inputs
-              app.getThreads();
-              app.new_name="";
-              app.new_author="";
-              app.new_description="";
-              app.category="all";
-              app.page="forum";
-
-          })
-
-      },
-
-
-        //delete Thread function here
-        deleteThread: function(thread_id){
+            });
+        },
+        deleteThread:function(thread_id){
             fetch(this.server_url+"/thread/"+thread_id,{
                 method:"DELETE",
                 headers:{
                     "Content-Type":"application/json"
                 }
             }).then(function(){
-                app.getThreads();
-            })
-
+                app.getThreads()})
         },
 
-        //delete Thread function here
-        getPosts: function(thread_id){
-          fetch(this.server_url+"/thread/"+thread_id).then(function(response){
-            response.json().then(function(data){
-              app.postings=data
-            })
-          }).then(function(){
-            app.page="posts"
-          });
-
+        getPosts:function(thread_id){
+            fetch(this.server_url+"/thread/"+thread_id).then(function(res){
+                res.json().then(function(data){
+                    app.postings= data;
+                    console.log(data)
+                })
+            }).then(function(){
+                app.page="posts"
+            });
         },
 
-        //Create Post
-        createPost: function(thread_id){
+        createPost:function(thread_id){
             var new_post={
-                thread_id: thread_id,
-                author: this.new_post_author,
-                body: this. new_post_body
-            }
-
+                thread_id:thread_id,
+                author:this.new_post_author,
+                body:this.new_post_body
+            };
             fetch(this.server_url+"/post",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
+                method: "POST",
+				headers: {
+					"Content-Type": "application/json"
                 },
                 body:JSON.stringify(new_post)
-            }).then( function(){
+            }).then(function() {
+                app.getPosts(thread_id);
                 app.new_post_author="";
                 app.new_post_body="";
-                app.getPosts(thread_id)
-            })
 
+            });
         },
-
-        deletePost: function(post){
-            console.log(post);
+        deletePost:function(post){
             fetch(this.server_url+"/post/"+post.thread_id+"/"+post._id,{
                 method:"DELETE",
                 headers:{
                     "Content-Type":"application/json"
                 }
             }).then(function(){
-                app.getPosts(post.thread_id)
-            })
+                app.getPosts(post.thread_id)})
         }
+
 
     },
     computed:{
-        //sorted threads here
-
         sorted_threads:function(){
-
-            if( this.selected_category == "all"){
-                return this.threads
-            }
-            //else filter through and see if category is equal to selected_category
-            else{
-                var sorted_threads= this.threads.filter(function(thread){
+            if(this.selected_category == "all"){
+                return this.threads;
+            } else {
+                var sorted_threads = this.threads.filter(function(thread){
                     return thread.category == app.selected_category;
                 });
-                return sorted_threads
+                return sorted_threads;
             }
-
         }
-
     }
-
-
-
-
 });
