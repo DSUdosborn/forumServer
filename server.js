@@ -106,7 +106,7 @@ server.get("/thread", (req, res) => {
   });
 });
 
-// GET /thread/:id
+
 // GET /thread/:id
 server.get("/thread/:id", (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -128,10 +128,30 @@ server.get("/thread/:id", (req, res) => {
 });
 
 // POST /thread
-server.post("/thread",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log("Post new thread");
-  res.json([]);
+server.post("/thread", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log(`creating thread with body`, req.body);
+
+  let newThread = {
+    author: req.body.author || "",
+    name: req.body.name || "",
+    description: req.body.description || "",
+    posts: [],
+    category: req.body.category || "all",
+  };
+
+  Thread.create(newThread, (err, thread) => {
+      if (err != null) {
+        console.log(`unable to create thread`);
+        res.status(500).json({
+          message: "unable to create thread",
+          error: err,
+        });
+        return;
+      }
+    res.status(201).json(thread)
+    }
+  );
 });
 
 // DELETE /thread/:id
