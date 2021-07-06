@@ -160,20 +160,17 @@ server.delete("/thread/:id",(req, res) => {
   console.log(`deleting thread with id: ${req.params.id}`);
 
   Thread.findByIdAndDelete(req.params.id, function (err, link) {
-    if (err) {
-      console.log(`unable to delete thread`);
+    if (err != null) {
       res.status(500).json({
-        message: "unable to delete thread",
         error: err,
+        message: "Could not process thread request"
       });
       return;
     } else if (thread === null) {
-      console.log(`unable to delete thread with id ${req.params.id}`);
       res.status(404).json({
-        message: `thread with id ${req.params.id} not found`,
-        error: err,
-      });
-    } else {
+        message: "Could not find thread"
+      })
+    }
       res.status(200).json(thread);
     }
   });
