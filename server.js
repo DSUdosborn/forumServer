@@ -101,7 +101,6 @@ server.get("/thread", (req, res) => {
       });
       return;
     }
-    // success
     res.status(200).json(threads);
   });
 });
@@ -122,6 +121,7 @@ server.get("/thread/:id", (req, res) => {
       res.status(404).json({
         message: "Could not find thread"
       })
+      return;
     }
     res.status(200).json(thread)
   });
