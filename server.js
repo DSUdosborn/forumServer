@@ -38,7 +38,7 @@ server.use((req, res, next) => {
 
   console.log(
     "Time: ",
-    Date.now(),
+    formatted_date,
     " - Method: ",
     req.method,
     " - Path: ",
