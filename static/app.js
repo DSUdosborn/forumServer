@@ -31,7 +31,7 @@ var app= new Vue({
         new_post_author:"",
         new_post_body:"",
 
-        server_url:"localhost:8080",
+        server_url:"http://localhost:8080",
 
         threads:[]
     },
