@@ -214,8 +214,50 @@ server.post("/post", (req, res) => {
 });
 
 // DELETE /post/:thread_id/:post_id
-server.delete("/thread/:id",(req, res) => {
-  res.setHeader("Content-Type","application/json");
-  console.log(`deleting post from  thread with id  $(req.params.id)`);
-  res.json([]);
+server.delete("/post/:thread_id/:post_id", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  console.log(
+    `deleting post with id ${req.params.post_id} on thread with id ${req.params.thread_id}`
+  );
+  Thread.findByIdAndUpdate(
+    req.params.thread_id,
+    {
+      $pull: {
+        posts: {
+          _id: req.params.post_id,
+        },
+      },
+    },
+    (err, thread) => {
+      if (err != null) {
+        res.status(500).json({
+          error: err,
+          message: "could not delete post",
+        });
+      } else if (thread === null) {
+        res.status(400).json({
+          error: err,
+          message: "could not find thread",
+        });
+        return;
+      }
+      // find the post that was deleted
+      let post;
+      thread.posts.forEach((e) => {
+        if (e._id == req.params.post_id) {
+          post = e;
+        }
+      });
+      // if you can't find it return 404
+      if (post == undefined) {
+        res.status(404).json({
+          error: err,
+          message: "could not find post",
+        });
+        return;
+      }
+      // success
+      res.status(200).json(post);
+    }
+  );
 });
