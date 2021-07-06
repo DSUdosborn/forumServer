@@ -23,6 +23,7 @@ server.use(express.json({}));
 // this is where we will do our own middleware
 server.use((req, res, next) => {
 
+  let current_datetime = new Date();
   let formatted_date =
     current_datetime.getFullYear() +
     "-" +
