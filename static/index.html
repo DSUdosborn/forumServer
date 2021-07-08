@@ -23,7 +23,7 @@
         </v-app-bar>
         <v-navigation-drawer app v-model="drawer">
           <v-list>
-            <v-list-item v-for="thread in threads">
+            <v-list-item v-for="thread in threads" v-bind:key="thread.id">
               <v-list-item-title>
                 <v-list-item-title>
                   {{ thread.title }}
