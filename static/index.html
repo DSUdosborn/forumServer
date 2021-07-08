@@ -44,7 +44,7 @@
             <v-flex xs6 text-xs-center>
               <div class="display-2">Threads</div>
               <v-layout column>
-              <v-flex v-for="thread in sorted_threads">
+              <v-flex v-for="thread in sorted_threads" v-bind:key="thread.id">
               <v-card>
                 <v-card-title>
                 <div v-on:click="getPosts(thread._id)">
@@ -78,7 +78,7 @@
           <v-flex xs6 text-xs-center>
             <div class="display-2">Posts</div>
             <v-layout column>
-            <v-flex v-for="post in postings.posts">
+            <v-flex v-for="post in postings.posts" v-bind:key="post.id">
             <v-card>
               <v-card-title>
               <div>
