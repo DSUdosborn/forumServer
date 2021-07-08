@@ -30,7 +30,7 @@ var app = new Vue ( {
         new_post_body:"",
         new_post_author:"",
 
-        server_url:"https://cs21forum.herokuapp.com/"
+        server_url:"https://cs21forum.herokuapp.com"
     },
     created:function(){
         this.getThreads();
